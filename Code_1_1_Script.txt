@@ -1,0 +1,171 @@
+#!/bin/ksh
+
+# created by Govind Sarda on 05/20/2011
+
+memberid=$1
+RootDir=/data/infa_shared
+TargetFileDir=/data/CC/TgtFiles
+ParamFileDir=/data/CC/Params
+ValidationDir=/data/infa_shared/sandbox/validation
+
+
+
+if [ -z "$memberid" ]
+then
+exit 0
+fi
+
+if [ ! -d $ValidationDir/temp ]
+then
+mkdir $ValidationDir/temp
+fi
+
+
+#code-desc files generated from ssf files are :
+#INTERIM.$memberid.ssf_proc_cd_proc_name.txt
+#INTERIM.$memberid.ssf_delay_cd_delay_rsn.txt
+#INTERIM.$memberid.ssf_sched_Service_Surgeon_Spec.txt
+#INTERIM.$memberid.ssf_manu_id_manu_name_supp_util.txt
+#INTERIM.$memberid.ssf_manu_id_manu_name_supp_det.txt
+#INTERIM.$memberid.ssf_item_num_item_desc_supp_util.txt
+#INTERIM.$memberid.ssf_item_num_item_desc_supp_det.txt
+#INTERIM.$memberid.ssf_vendor_code_vendor_name_supp_util.txt
+
+#code-desc violation files generated after processing are :
+#INTERIM.$memberid.proc_cd_proc_name_violation.txt
+#INTERIM.$memberid.delay_cd_delay_rsn_violation.txt
+#INTERIM.$memberid.sched_Service_Surgeon_Spec.txt
+#INTERIM.$memberid.manu_id_manu_name_supp_util_violation.txt
+#INTERIM.$memberid.manu_id_manu_name_supp_det_violation.txt
+#INTERIM.$memberid.item_num_item_desc_supp_util_violation.txt
+#INTERIM.$memberid.item_num_item_desc_supp_det_violation.txt
+#INTERIM.$memberid.vendor_code_vendor_name_supp_util_violation.txt
+
+#--------------------------## proc_cd - proc_name ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_case_px.$memberid.* ]
+then
+cat $TargetFileDir/SSF_case_px.$memberid.* | cut -d "|" -f1,3,4 > $ValidationDir/temp/INTERIM.$memberid.ssf_proc_cd_proc_name.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_proc_cd_proc_name.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_proc_cd_proc_name.lst
+fi
+
+#-------------------------------------------------------------------------------------------#
+
+#--------------------------## delay_cd - delay_reason ##------------------------------------#
+
+if [ -s $TargetFileDir/SSF_cases.$memberid.* ]
+then
+cat $TargetFileDir/SSF_cases.$memberid.* | cut -d "|" -f1,20,21 > $ValidationDir/temp/INTERIM.$memberid.ssf_delay_cd_delay_rsn.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_delay_cd_delay_rsn.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_delay_cd_delay_rsn.lst
+fi
+
+#-------------------------------------------------------------------------------------------#
+
+
+#--------------------------## sched_Service - Surgeon_Spec ##------------------------------------#
+
+if [ -s $TargetFileDir/SSF_cases.$memberid.* ]
+then
+cat $TargetFileDir/SSF_cases.$memberid.* | cut -d "|" -f1,20,21 > $ValidationDir/temp/INTERIM.$memberid.ssf_sched_Service_Surgeon_Spec.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_sched_Service_Surgeon_Spec.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_sched_Service_Surgeon_Spec.lst
+fi
+
+#-------------------------------------------------------------------------------------------#
+
+#--------------------------## item_num_item_desc_supp_detail ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_supply_detail.$memberid.* ] 
+then
+cat $TargetFileDir/SSF_supply_detail.$memberid.* | cut -d "|" -f1,2,3 > $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_det.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_det.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_det.lst
+fi
+
+#------------------------------------------------------------------------------------------------------#
+
+#--------------------------## item_num_item_desc_supp_detail - NRM ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_supplies_NRM_details.$memberid.* ] 
+then
+cat $TargetFileDir/SSF_supplies_NRM_details.$memberid.* | cut -d "|" -f1,2,3 > $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_det.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_det.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_det.lst
+fi
+
+#-----------------------------------------------------------------------------------------------------------#
+
+#--------------------------## item_num_item_desc_supp_util ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_case_supplies.$memberid.* ] 
+then
+cat $TargetFileDir/SSF_case_supplies.$memberid.* | cut -d "|" -f1,3,4 > $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_util.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_util.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_util.lst
+fi
+
+#----------------------------------------------------------------------------------------------------#
+
+#--------------------------## item_num_item_desc_supp_util - NRM ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_supplies_NRM_case.$memberid.* ] 
+then
+cat $TargetFileDir/SSF_supplies_NRM_case.$memberid.* | cut -d "|" -f1,3,4 > $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_util.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_util.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_item_num_item_desc_supp_util.lst
+fi
+
+#---------------------------------------------------------------------------------------------------------#
+
+#--------------------------## manu_id_manu_name_supp_detail ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_supply_detail.$memberid.* ] 
+then
+cat $TargetFileDir/SSF_supply_detail.$memberid.* | cut -d "|" -f1,8,9 > $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_det.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_det.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_det.lst
+fi
+
+#----------------------------------------------------------------------------------------------------#
+
+#--------------------------## manu_id_manu_name_supp_detail - NRM ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_supplies_NRM_details.$memberid.* ] 
+then
+cat $TargetFileDir/SSF_supplies_NRM_details.$memberid.* | cut -d "|" -f1,8,9 > $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_det.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_det.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_det.lst
+fi
+
+#---------------------------------------------------------------------------------------------------------#
+
+#--------------------------## manu_id_manu_name_supp_util ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_case_supplies.$memberid.* ] 
+then
+cat $TargetFileDir/SSF_case_supplies.$memberid.* | cut -d "|" -f1,8,9 > $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_util.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_util.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_util.lst
+fi
+
+#---------------------------------------------------------------------------------------------------#
+
+#--------------------------## manu_id_manu_name_supp_util - NRM ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_supplies_NRM_case.$memberid.* ] 
+then
+cat $TargetFileDir/SSF_supplies_NRM_case.$memberid.* | cut -d "|" -f1,8,9 > $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_util.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_util.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_manu_id_manu_name_supp_util.lst
+fi
+
+#--------------------------------------------------------------------------------------------------------#
+
+#--------------------------## vendor_code_vendor_name_supp_util - NRM ##----------------------------------------#
+
+if [ -s $TargetFileDir/SSF_supplies_NRM_case.$memberid.* ] 
+then
+cat $TargetFileDir/SSF_supplies_NRM_case.$memberid.* | cut -d "|" -f1,14 > $ValidationDir/temp/INTERIM.$memberid.vendor_code_vendor_name_part1.txt
+cat $TargetFileDir/SSF_supplies_NRM_case.$memberid.* | cut -d "|" -f13 > $ValidationDir/temp/INTERIM.$memberid.vendor_code_vendor_name_part2.txt
+paste -d "|" $ValidationDir/temp/INTERIM.$memberid.vendor_code_vendor_name_part1.txt $ValidationDir/temp/INTERIM.$memberid.vendor_code_vendor_name_part2.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_vendor_code_vendor_name_supp_util.txt
+ls $ValidationDir/temp/INTERIM.$memberid.ssf_vendor_code_vendor_name_supp_util.txt > $ValidationDir/temp/INTERIM.$memberid.ssf_vendor_code_vendor_name_supp_util.lst
+fi
+
+#--------------------------------------------------------------------------------------------------------#
+
+
+
+
+exit 0
+
